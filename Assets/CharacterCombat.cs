@@ -7,14 +7,14 @@ public class CharacterCombat : MonoBehaviour
 {
 
     private Animator animator;
-    [SerializeField] float damage = 20;
-    //private int health = 100;
-    [SerializeField] float attackRange = 2.5f;
-    [SerializeField] float attackCD = 1.0f;
+    
+    public float damage = 20;
+    public float health = 100;
+    public float attackRange = 2.5f;
+    public float attackCD = 1.0f;
     public LayerMask enemyLayer;
-    private bool hasAttacked;
     private float lastAttackTime; // Time when the last attack occurred
-
+    public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,10 @@ public class CharacterCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        if (!isDead)
+        {
+            Attack();
+        }
     }
 
     void Attack()
@@ -45,24 +48,52 @@ public class CharacterCombat : MonoBehaviour
 
     private void PerformAttack()
     {
-        // Detect enemies within attack range using sphere overlap
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 2f, enemyLayer);
-        // Check if any enemies are detected
-        if (hitEnemies.Length > 0)
-        {
-            // Get the first collider detected
-            Collider firstEnemyCollider = hitEnemies[0];
 
-            // Assuming enemies have an Enemy script with TakeDamage method
-            Enemy enemy = firstEnemyCollider.GetComponent<Enemy>();
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, attackRange, enemyLayer))
+        {
+
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            //attackRange = enemy.attackRange;
             if (enemy != null)
             {
-                Debug.Log("Enemy hit! Name: " + firstEnemyCollider.name + ", Health: " + enemy.getHealth());
                 enemy.TakeDamage(damage);
+                if (enemy.GetHealth() > 0)
+                {
+                    //Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.GetHealth() +
+                    //    ", Is Dead: " + enemy.GetDeathCondition());
+                }
+                else
+                {
+                   // Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.GetHealth()
+                    //    + ", Is Dead: " + enemy.GetDeathCondition());
+                }
             }
         }
 
     }
+
+    public void TakeDamage(float damageAmount)
+    {
+        if (health > 0)
+        {
+            health -= damageAmount;
+        }
+        CheckCharacterDeath();
+    }
+
+    private void CheckCharacterDeath()
+    {
+        if (health <= 0)
+        {
+            isDead = true;
+            animator.SetBool("isMoving", false);
+            animator.SetBool("isDead", isDead);
+        }
+    }
+
+
 
 
 }

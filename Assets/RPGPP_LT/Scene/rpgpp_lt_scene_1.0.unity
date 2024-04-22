@@ -7578,10 +7578,14 @@ MonoBehaviour:
   movementRange: 5
   rotationSpeed: 5
   health: 100
-  attackRange: 1
-  aggroRange: 4
+  attackRange: 5
+  aggroRange: 15
   attackCD: 4
+  attackDamage: 30
   maxDistance: 2
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &749544005
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7601,8 +7605,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.81
-  m_Center: {x: 0, y: 0.76, z: 0}
+  m_Radius: 0.84
+  m_Center: {x: 0, y: 0.61, z: 0}
 --- !u!195 &749544008
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7612,7 +7616,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 749543997}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.97
+  m_Radius: 0.96
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -7625,6 +7629,33 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &749544011
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749543997}
+  serializedVersion: 4
+  m_Mass: 30.19
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &752723823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1855710351377478, guid: 5c9211eb71cff4f4996a21d92317f601, type: 3}
@@ -7817,7 +7848,7 @@ MonoBehaviour:
   characterController: {fileID: 768227566}
   moveSpeed: 5
   rotationSpeed: 100
-  groundCheckDistance: 0.1
+  groundCheckDistance: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -7845,13 +7876,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.81
-  m_Radius: 0.36
+  m_Height: 2.01
+  m_Radius: 0.23
   m_SlopeLimit: 30
   m_StepOffset: 1.04
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.99, z: 0}
+  m_Center: {x: 0, y: 1.03, z: 0}
 --- !u!114 &768227569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7865,11 +7896,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
+  health: 100
   attackRange: 2.5
   attackCD: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
+  isDead: 0
 --- !u!1 &768675425 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8254318336897943377, guid: 194ffd0653835f54ebd7c74ba6eaaed9, type: 3}
@@ -13324,11 +13357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4957605393579145646, guid: 4f46098734d87e24490aef9267915ad2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 114.73
+      value: 83.438
       objectReference: {fileID: 0}
     - target: {fileID: 4957605393579145646, guid: 4f46098734d87e24490aef9267915ad2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.14
+      value: 21.798
       objectReference: {fileID: 0}
     - target: {fileID: 4957605393579145646, guid: 4f46098734d87e24490aef9267915ad2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19471,6 +19504,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100004, guid: 312893f539145244eb941380e62dd9e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 749544011}
     - targetCorrespondingSourceObject: {fileID: 100004, guid: 312893f539145244eb941380e62dd9e8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 749544005}
