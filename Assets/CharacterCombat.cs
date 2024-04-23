@@ -7,25 +7,25 @@ public class CharacterCombat : MonoBehaviour
 {
 
     private Animator animator;
-    
-    public float damage = 20;
-    public float health = 100;
+
     public float attackRange = 2.5f;
     public float attackCD = 1.0f;
     public LayerMask enemyLayer;
     private float lastAttackTime; // Time when the last attack occurred
-    public bool isDead = false;
+    private Character character;
+
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        character = GetComponent<Character>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isDead)
+        if (!character.isDead)
         {
             Attack();
         }
@@ -55,19 +55,18 @@ public class CharacterCombat : MonoBehaviour
         {
 
             Enemy enemy = hit.collider.GetComponent<Enemy>();
-            //attackRange = enemy.attackRange;
             if (enemy != null)
             {
-                enemy.TakeDamage(damage);
-                if (enemy.GetHealth() > 0)
+                enemy.TakeDamage(character.damage);
+                if (enemy.health > 0)
                 {
-                    //Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.GetHealth() +
-                    //    ", Is Dead: " + enemy.GetDeathCondition());
+                    Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.health +
+                        ", Is Dead: " + enemy.isDead);
                 }
                 else
                 {
-                   // Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.GetHealth()
-                    //    + ", Is Dead: " + enemy.GetDeathCondition());
+                    Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.health
+                        + ", Is Dead: " + enemy.isDead);
                 }
             }
         }
@@ -76,24 +75,22 @@ public class CharacterCombat : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        if (health > 0)
+        if (character.health > 0)
         {
-            health -= damageAmount;
+            character.health -= damageAmount;
         }
         CheckCharacterDeath();
     }
 
     private void CheckCharacterDeath()
     {
-        if (health <= 0)
+        if (character.health <= 0)
         {
-            isDead = true;
+            character.isDead = true;
             animator.SetBool("isMoving", false);
-            animator.SetBool("isDead", isDead);
+            animator.SetBool("isDead", true);
         }
     }
-
-
 
 
 }

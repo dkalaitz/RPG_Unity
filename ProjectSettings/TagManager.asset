@@ -9,6 +9,7 @@ TagManager:
   - Building
   - Enemy
   - Character
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -14,13 +14,13 @@ public class CharacterMovement : MonoBehaviour
 
     public float groundCheckDistance = 2f; // Distance to check for ground
     public LayerMask groundLayer; // Layer mask for the ground
-    CharacterCombat combat;
+    private Character character; 
 
     void Start()
     {
 
         animator = GetComponent<Animator>();
-        combat = GetComponent<CharacterCombat>();
+        character = GetComponent<Character>();
         // Check if the Animator component is assigned
         if (animator == null)
         {
@@ -31,7 +31,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if (!combat.isDead)
+        if (!character.isDead)
         {
             HandleMovement();
         }

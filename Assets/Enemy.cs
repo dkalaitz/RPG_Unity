@@ -8,28 +8,26 @@ using UnityEngine.UIElements;
 public class Enemy : MonoBehaviour
 {
     private Animator animator;
-    public float movementRange = 5f; // The range within which the character can move
-    public float rotationSpeed = 5f; // The speed at which the character rotates
+    public float movementRange = 5f;
+    public float rotationSpeed = 5f; 
 
-    private bool isIdle = true, isWalking = false;
+    private bool isWalking = false;
     NavMeshAgent agent;
     public float health = 100;
-    public float attackRange = 5f;
+    public float attackRange = 4.5f;
     public float aggroRange = 15f;
     public float attackCD = 4f;
     public float attackDamage = 30;
 
-    float timePassed;
-    float newDestinationCD = 0.5f;
     private float lastAttackTime;
     GameObject playerCharacter;
-    public float maxDistance = 2.0f;
-    private bool isDead = false;
+    public bool isDead = false;
     private Vector3 initialPosition;
-    private Rigidbody rb;
-    private Vector3 attackPosition;
     private Quaternion initialRotation;
     public LayerMask characterLayer;
+    public int level = 3;
+
+    public bool isInAggroRange = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,8 +38,8 @@ public class Enemy : MonoBehaviour
         animator.SetBool("isDead", isDead);
         animator.SetBool("isWalking", isWalking);
         initialPosition = transform.position;
-        rb = GetComponent<Rigidbody>();
         initialRotation = transform.rotation;
+        StartCoroutine(HealOverTime());
     }
 
     private void Update()
@@ -51,6 +49,7 @@ public class Enemy : MonoBehaviour
             HandleAttackBehavior();
             CheckInitialPotision();
         }
+        checkHealth();
     }
 
     private void HandleAttackBehavior()
@@ -59,11 +58,11 @@ public class Enemy : MonoBehaviour
 
         if (distanceToPlayer <= aggroRange)
         {
+            isInAggroRange = true;
             // Rotate enemy to face the player
             Vector3 direction = (playerCharacter.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
             //Debug.Log(distanceToPlayer);
             // Check if the enemy is within attack range
             if (distanceToPlayer <= attackRange)
@@ -89,6 +88,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            isInAggroRange = false;
+           // audioObject.GetComponent<Audio>().StopBattleAudio();
             // Return to initial position if player is out of aggro range
             agent.SetDestination(initialPosition);
         }
@@ -97,13 +98,13 @@ public class Enemy : MonoBehaviour
 
     private void AttackCharacter()
     {
-        if (!playerCharacter.GetComponent<CharacterCombat>().isDead)
+        if (!playerCharacter.GetComponent<Character>().isDead)
         {
             // Trigger attack animation
             animator.SetTrigger("Attack");
             playerCharacter.GetComponent<CharacterCombat>().TakeDamage(attackDamage);
-            Debug.Log("Enemy hit! Health: " + playerCharacter.GetComponent<CharacterCombat>().health
-                + "Character Condition: " + playerCharacter.GetComponent<CharacterCombat>().isDead);
+           // Debug.Log("Enemy hit! Health: " + playerCharacter.GetComponent<Character>().health
+             //   + "Character Condition: " + playerCharacter.GetComponent<Character>().isDead);
         }
 
     }
@@ -142,40 +143,37 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /*private void CheckIfCharacterKilled()
+    /* private void OnDrawGizmos()
+     {
+         Gizmos.color = Color.red;
+         Gizmos.DrawWireSphere(transform.position, attackRange);
+         Gizmos.color = Color.yellow;
+         Gizmos.DrawWireSphere(transform.position, aggroRange);
+     }*/
+    private void checkHealth()
     {
-        if (playerCharacter.GetComponent<CharacterCombat>().health < 0 && agent.destination != initialPosition)
+        if (health < 0)
         {
-            isWalking = true;
-            animator.SetBool("isWalking", isWalking);
-            agent.SetDestination(initialPosition);
-        } else
-        {
-            isWalking = false;
-            animator.SetBool("isWalking", isWalking);
+            health = 0;
         }
-    }*/
-
-   /* private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, aggroRange);
-    }*/
-
-    public float GetHealth()
-    {
-        return health;
     }
 
-    public float GetAttackRange()
+    IEnumerator HealOverTime()
     {
-        return attackRange;
-    }
+        while (true)
+        {
+            // Wait for 2 seconds
+            yield return new WaitForSeconds(2f);
 
-    public bool GetDeathCondition()
-    {
-        return isDead;
+            // Check if the character is not dead and enemy is not in aggro range
+            if (!isInAggroRange)
+            {
+                // Heal the character by 10
+                health += 10;
+
+                // Ensure health does not exceed maximum
+                health = Mathf.Clamp(health, 0, 100);
+            }
+        }
     }
 }
