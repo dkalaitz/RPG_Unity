@@ -13,7 +13,6 @@ public class Audio : MonoBehaviour
     void Start()
     {
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Enemy>();
-        Debug.Log(enemy.name);
         battleAudio.Stop();
         gameAudio.Play();
     }

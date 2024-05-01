@@ -44,8 +44,6 @@ public class CharacterCombat : MonoBehaviour
         }
     }
 
-
-
     private void PerformAttack()
     {
 
@@ -58,16 +56,6 @@ public class CharacterCombat : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(character.damage);
-                if (enemy.health > 0)
-                {
-                    Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.health +
-                        ", Is Dead: " + enemy.isDead);
-                }
-                else
-                {
-                    Debug.Log("Enemy hit! Name: " + enemy.name + ", Health: " + enemy.health
-                        + ", Is Dead: " + enemy.isDead);
-                }
             }
         }
 
