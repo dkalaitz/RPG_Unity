@@ -15,7 +15,7 @@ public class QuestNPCScript : MonoBehaviour
     private QuestUI questUI;
 
     private bool isPlayerInsideTrigger = false, questReceived = false, detailSet = false, quizDetailSet = false;
-    private int questionIndex = 0;
+    public int questionIndex = 0;
 
     // Start is called before the first frame update
     void Start()

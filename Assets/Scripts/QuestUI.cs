@@ -15,8 +15,8 @@ public class QuestUI : MonoBehaviour
     [SerializeField] float delayBetweenCharacters = 0.01f; // Delay between each character
     private Quest npcQuest;
     
-    public TextMeshProUGUI title; // Reference to the TextMeshPro component
-    public TextMeshProUGUI description; // Reference to the TextMeshPro component
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI description; 
     private int pages;
 
     private string fullText; // Full text to display
@@ -229,7 +229,8 @@ public class QuestUI : MonoBehaviour
 
     public void OnSubmit()
     {
-        isCorrectAnswer = questManager.CheckQuizAnswer(npcQuest, questionIndex, selectedAnswer);
+        QuestNPCScript npc = GameObject.Find("DemonGirls").GetComponent<NPCQuestHandler>().GetCurrentEnabled();
+        isCorrectAnswer = questManager.CheckQuizAnswer(npcQuest, npc.questionIndex, selectedAnswer);
 
         if (!isCorrectAnswer)
         {

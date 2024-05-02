@@ -14,6 +14,7 @@ public class QuestCreate : MonoBehaviour
         quizzes = new List<Quiz>();
         CreateQuizzes();
         CreateQuests();
+
     }
 
     private List<Quiz> QuizListGroupByLevel(int levelQuest)
@@ -59,7 +60,7 @@ public class QuestCreate : MonoBehaviour
             answer2: "\"While\" loop engages until enemy defeated, \"for\" loop battles each enemy.",
             answer3: "\"While\" loop engages based on condition, \"for\" loop iterates over enemies.",
             answer4: " \"While\" loop iterates over enemies, \"for\" loop fights single enemy.",
-            correctAnswer: 2,
+            correctAnswer: 3,
             levelQuiz: 2));
 
         quizzes.Add(new Quiz(question: "In the enchanted realm described by the narrator, what role do functions play in the mystical craft of coding?",
@@ -86,6 +87,10 @@ public class QuestCreate : MonoBehaviour
             pages: 4,
             instructions: "Find Lilith the Enchantress",
             quizzes: QuizListGroupByLevel(levelQuest: 1)));
+        List<Quiz> quizzes = new List<Quiz>();
+        quizzes = QuizListGroupByLevel(levelQuest: 1);
+        Debug.Log(quizzes[0].correctAnswer);
+        Debug.Log(quizzes[1].correctAnswer);
 
         questManager.AddQuest(new Quest(title: "The Path of Persistence",
             description: "Ah, greetings, stalwart Champion! Your prowess with the blade is matched only by your dedication to mastering the arcane arts of coding. Now, let us sharpen our skills further as we tread the Path of Persistence.\r\n\r\nIn the realm of coding, persistence is the cornerstone of victory, allowing us to persevere through challenges until our goals are achieved. Today, we shall uncover two formidable techniques: the relentless \"while\" loop and the resolute \"for\" loop, each a stalwart ally in our journey.\r\n\r\nFirst, let us unsheathe the \"while\" loop, a spell of unwavering determination. With this incantation, we can execute a series of actions as long as a certain condition holds true. Behold its invocation:\r\n\r\n<color=#FF0000>enemy_health = 100\r\r\nwhile enemy_health > 0:\r\n    swing_sword()\r\n    enemy_health -= sword_damage</color>\r\n\r\nIn this mighty script, we continue to wield our blade against our foe until their health is depleted. With each swing of our sword, the enemy's health diminishes until victory is ours.\r\n\r\nBut fear not, for the \"for\" loop stands ready to bolster our efforts with structured repetition. With this enchantment, we can traverse through a sequence of adversaries, striking them down one by one. Witness its incantation:\r\n\r\n<color=#FF0000>enemies = [\"Goblin\", \"Orc\", \"Skeleton\", \"Dragon\"]\r\n\r\nfor enemy in enemies:\r\n    engage_in_combat(enemy)</color>\r\n\r\nIn this valiant script, we march forth to battle against a horde of enemies, each one met with the fury of our blade. With each iteration of the loop, a new foe is vanquished until none remain standing.\r\n\r\nBut remember, Champion, with great power comes great responsibility. Exercise caution when wielding these looping spells, for misuse can lead to unintended consequences. Always ensure that your conditions are just and your actions are true.\r\n\r\nNow, take up your blade and your keyboard, and let the echoes of your courage resound through the realm of code. Together, we shall conquer the challenges that lie ahead and emerge victorious in our quest for mastery.\r\n\r\nOnward, brave Champion, to glory and triumph!",

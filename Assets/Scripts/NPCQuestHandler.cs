@@ -48,4 +48,9 @@ public class NPCQuestHandler : MonoBehaviour
     {
         return currentNPCIndex;
     }
+
+    public QuestNPCScript GetCurrentEnabled()
+    {
+        return questNPCs[currentNPCIndex].GetComponent<QuestNPCScript>();
+    }
 }

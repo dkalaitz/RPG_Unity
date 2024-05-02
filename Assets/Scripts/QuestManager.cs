@@ -8,10 +8,6 @@ public class QuestManager : MonoBehaviour
 
     private List<Quest> quests = new List<Quest>();
 
-    void Start()
-    {
-    }
-
     public void AddQuest(Quest quest)
     {
         quests.Add(quest);
